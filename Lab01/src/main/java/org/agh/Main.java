@@ -1,17 +1,31 @@
 package org.agh;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // TODO
+        // ex 1 - witchout synchronized
+//        Counter counter = new Counter();
+//
+//        IncrementThread incrementThread = new IncrementThread(counter);
+//        DecrementThread decrementThread = new DecrementThread(counter);
+//
+//        Thread thread1 = new Thread(incrementThread);
+//        Thread thread2 = new Thread(decrementThread);
+//
+//        thread1.start();
+//        thread2.start();
+//
+//        thread1.join();
+//        thread2.join();
+//
+//        System.out.println(counter.getX());
+//
+//        // ex 2 - witch synchronized
+//        System.out.println(counter.getX());
+//
+//        // ex 3
+//        Buffer buffer = new Buffer();
+//        Producer producer = new Producer(buffer);
+//        Consumer consumer = new Consumer(buffer);
     }
 }
