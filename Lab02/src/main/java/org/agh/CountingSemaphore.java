@@ -1,6 +1,6 @@
 package org.agh;
 
-class CountingSemaphore {
+public class CountingSemaphore {
     private int signals;
 
     public CountingSemaphore(int initial) {

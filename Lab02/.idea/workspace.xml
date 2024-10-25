@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc939403-3c78-4601-b91a-206a8b4b3ee2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/CountingSemaphor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/CountingSemaphore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/agh/Philosopher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/BinarySemaphore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/BinarySemaphore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/CountingSemaphore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/CountingSemaphore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +74,7 @@
       <option name="presentableId" value="Default" />
       <updated>1729259017299</updated>
       <workItem from="1729259018515" duration="3226000" />
-      <workItem from="1729841412869" duration="2134000" />
+      <workItem from="1729841412869" duration="2571000" />
     </task>
     <servers />
   </component>

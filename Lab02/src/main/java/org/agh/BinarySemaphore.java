@@ -1,6 +1,6 @@
 package org.agh;
 
-class BinarySemaphore {
+public class BinarySemaphore {
     private boolean isAvailable = true;
 
     public boolean isAvailable() {

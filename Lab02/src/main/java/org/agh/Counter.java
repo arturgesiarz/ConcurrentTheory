@@ -1,6 +1,6 @@
 package org.agh;
 
-class Counter {
+public class Counter {
     private int value;
     private final BinarySemaphore semaphore = new BinarySemaphore();
 
