@@ -1,4 +1,4 @@
-package org.agh;
+package org.agh.semaphores;
 
 public class CountingSemaphore {
     private int signals;

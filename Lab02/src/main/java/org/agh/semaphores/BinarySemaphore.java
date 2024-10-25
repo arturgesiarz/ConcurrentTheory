@@ -1,11 +1,7 @@
-package org.agh;
+package org.agh.semaphores;
 
 public class BinarySemaphore {
     private boolean isAvailable = true;
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
 
     public synchronized void acquire()  {
         while (!isAvailable) {

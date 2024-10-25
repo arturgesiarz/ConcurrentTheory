@@ -1,5 +1,7 @@
 package org.agh;
 
+import org.agh.semaphores.BinarySemaphore;
+
 public class Counter {
     private int value;
     private final BinarySemaphore semaphore = new BinarySemaphore();

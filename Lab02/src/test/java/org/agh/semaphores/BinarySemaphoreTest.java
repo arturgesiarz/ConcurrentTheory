@@ -1,10 +1,13 @@
-package org.agh;
+package org.agh.semaphores;
 
-public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        // Ex 1 - Zaimplementowac semafor binarny za pomoca metod wait i notify/notifyall,
-        // uzyc go do synchronizacji wyscigu z poprzedniego laboratorium.
+import org.agh.Counter;
+import org.junit.jupiter.api.Test;
 
+
+class BinarySemaphoreTest {
+
+    @Test
+    void isBinarySemaphoreWorks() throws InterruptedException {
         int INCREMENT_TIMES = 100000000;
         Counter counter = new Counter(0);
 
@@ -25,12 +28,6 @@ public class Main {
         thread1.join();
         thread2.join();
 
-        System.out.println(counter.getValue());
-
-        // Ex 2 - Zaimplementowac semafor licznikowy (ogolny) za pomoca metod wait i notify/notifyall.
-        // CountingSemaphore()
-
-        // Ex 3 - ...
-
+        assert counter.getValue() == 0;
     }
 }
