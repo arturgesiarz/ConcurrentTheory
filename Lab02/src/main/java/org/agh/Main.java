@@ -27,5 +27,10 @@ public class Main {
 
         System.out.println(counter.getValue());
 
+        // Ex 2 - Zaimplementowac semafor licznikowy (ogolny) za pomoca metod wait i notify/notifyall.
+        // CountingSemaphore()
+
+        // Ex 3 - ...
+
     }
 }
