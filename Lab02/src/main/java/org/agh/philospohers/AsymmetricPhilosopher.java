@@ -38,10 +38,10 @@ public class AsymmetricPhilosopher extends Thread {
     }
 
     private void think() {
-        System.out.println(Thread.currentThread().getName() + " myśli...");
+        System.out.println( philosopherId + " myśli...");
     }
 
     private void eat() {
-        System.out.println(Thread.currentThread().getName() + " je...");
+        System.out.println(philosopherId + " je...");
     }
 }
