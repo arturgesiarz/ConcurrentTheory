@@ -31,7 +31,7 @@ class WaiterMonitorTest {
                    System.out.println("Finished  " + id / 2);
 
                } catch (InterruptedException e) {
-                   throw new RuntimeException(e);
+                   Thread.currentThread().interrupt();
                }
             });
 
