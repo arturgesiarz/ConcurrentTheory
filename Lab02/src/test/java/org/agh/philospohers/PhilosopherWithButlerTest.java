@@ -4,8 +4,6 @@ import org.agh.semaphores.BinarySemaphore;
 import org.agh.semaphores.CountingSemaphore;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PhilosopherWithButlerTest {
 
     @Test

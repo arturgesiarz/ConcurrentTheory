@@ -16,6 +16,6 @@ public class BinarySemaphore {
 
     public synchronized void release() {
         isAvailable = true;
-        notifyAll();
+        notify();
     }
 }

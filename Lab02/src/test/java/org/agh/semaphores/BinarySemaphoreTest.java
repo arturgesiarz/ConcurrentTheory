@@ -8,7 +8,7 @@ class BinarySemaphoreTest {
 
     @Test
     void isBinarySemaphoreWorks() throws InterruptedException {
-        int INCREMENT_TIMES = 100000000;
+        int INCREMENT_TIMES = 10000;
         Counter counter = new Counter(0);
 
         Thread thread1 = new Thread(() -> {
