@@ -41,7 +41,6 @@ class PipeBufferTest {
 
         consumer.start();
 
-        // Czekanie aż wszystkie wątki się zakończą
         producent.join();
 
         for (Thread processor : processors)
