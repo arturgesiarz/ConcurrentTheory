@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc939403-3c78-4601-b91a-206a8b4b3ee2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/philospohers/AsymmetricPhilosopher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/philospohers/AsymmetricPhilosopher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/agh/semaphores/BinarySemaphore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/agh/semaphores/BinarySemaphore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/agh/philospohers/PhilosopherWithButlerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/agh/philospohers/PhilosopherWithButlerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/agh/semaphores/BinarySemaphoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/agh/semaphores/BinarySemaphoreTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab04/src/main/java/org/agh/PipeBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab04/src/test/java/org/agh/PipeBufferTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +62,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "lab04",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -243,6 +240,7 @@
       <workItem from="1729863424794" duration="70000" />
       <workItem from="1729863516743" duration="176000" />
       <workItem from="1729863774541" duration="688000" />
+      <workItem from="1730387736047" duration="8000" />
     </task>
     <servers />
   </component>
