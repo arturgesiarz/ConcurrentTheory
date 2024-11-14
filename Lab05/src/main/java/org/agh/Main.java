@@ -32,7 +32,7 @@ public class Main {
             for (int threadNo : threadNumbers) {
 
                 // Liczba zadan do wykonania
-                int[] taskNumbers = { threadNo, 10 * threadNo, width * height };
+                int[] taskNumbers = { threadNo, 10 * threadNo, width * height};
 
                 for (int taskNo : taskNumbers) {
 
@@ -42,7 +42,7 @@ public class Main {
 
                     // Mierzenie 10 razy czasu dla tego samego przypadku
                     for (int i = 0; i < runs; i++) {
-                        MandelbrotSimulator simulator = new MandelbrotSimulator(threadNo, taskNo,
+                        MandelbrotSimulation simulator = new MandelbrotSimulation(threadNo, taskNo,
                                 maxIter, height, width, zoom);
 
                         long startTime = System.nanoTime();
@@ -50,7 +50,7 @@ public class Main {
                         simulator.simulate();
 
                         long endTime = System.nanoTime();
-                        long elapsedTime = (endTime - startTime) / 1_000_000_000;
+                        long elapsedTime = (endTime - startTime);
 
                         times.add(elapsedTime);
                     }

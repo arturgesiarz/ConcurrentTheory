@@ -1,7 +1,5 @@
 package org.agh;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class MandelbrotSimulator {
+public class MandelbrotSimulation {
     private int threadNo;
     private int taskNo;
     private int maxIter;
@@ -19,7 +17,7 @@ public class MandelbrotSimulator {
     private double zoom;
     private BufferedImage image;
 
-    public MandelbrotSimulator(int threadNo, int taskNo, int maxIter, int height, int width, double zoom) {
+    public MandelbrotSimulation(int threadNo, int taskNo, int maxIter, int height, int width, double zoom) {
         this.threadNo = threadNo;
         this.taskNo = taskNo;
         this.maxIter = maxIter;
@@ -36,6 +34,9 @@ public class MandelbrotSimulator {
         // Przechowuje zadania ktore sa wkracie wykonywania lub sa zakonczone z puli watkow
         List<Future<Integer>> codes = new ArrayList<>();
 
+        // Sprawdzamy czy mamy do czynienia z przypadkiem
+        // w ktrorym liczba zadan nie jest rowna liczbie pikseli
+        // wtedy musimy rownomiernie zadania na watki
         if (taskNo != (height * width)) {
 
             int step = height / (taskNo * threadNo);
@@ -43,7 +44,7 @@ public class MandelbrotSimulator {
 
             for (int i = 0; (i + 1) < (taskNo * threadNo); i++) {
                 y2 = y1 + step - 1;
-                MandelbrotWorker worker = new MandelbrotWorker(0, y1, width - 1, y2,
+                Mandelbrot worker = new Mandelbrot(0, y1, width - 1, y2,
                         maxIter, width, height, zoom, image);
 
                 // Rozpoczecie zadanie i dodanie do listy
@@ -51,7 +52,7 @@ public class MandelbrotSimulator {
                 y1 += step;
             }
 
-            MandelbrotWorker worker = new MandelbrotWorker(0, y1, width - 1, height - 1,
+            Mandelbrot worker = new Mandelbrot(0, y1, width - 1, height - 1,
                     maxIter, width, height, zoom, image);
 
             codes.add(threadPool.submit(worker));
@@ -59,7 +60,7 @@ public class MandelbrotSimulator {
 
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++) {
-                    MandelbrotWorker worker = new MandelbrotWorker(
+                    Mandelbrot worker = new Mandelbrot(
                             x, y, x, y, maxIter, width, height, zoom, image);
                     codes.add(threadPool.submit(worker));
                 }
