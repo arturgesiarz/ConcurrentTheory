@@ -12,9 +12,12 @@ public class FairProducerConsumerTest {
     @Test
     public void fairProducerConsumerTest() throws IOException, InterruptedException {
         FileWriter fileWriter = new FileWriter("src/test/resources/fair-producer-consumer-results.csv");
+        fileWriter.append("Type,Amount,Time\n");
+
         go(1000, 10, fileWriter);
         go(10000, 100, fileWriter);
         go(100000, 1000, fileWriter);
+
         fileWriter.close();
     }
 }

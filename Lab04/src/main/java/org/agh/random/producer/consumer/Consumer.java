@@ -1,6 +1,7 @@
 package org.agh.random.producer.consumer;
 
 public class Consumer extends Worker {
+
     public Consumer(Buffer buffer, int limit) {
             super(buffer, limit);
     }
