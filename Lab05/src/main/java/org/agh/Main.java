@@ -24,6 +24,7 @@ public class Main {
 
         // Zapis CSV
         FileWriter fileWriter = new FileWriter("src/main/resources/results.csv");
+        fileWriter.append("Iterations,Threads,Tasks,Average,Deviation\n");
 
         // Obliczanie przypadkow
         for (int maxIter : maxIters) {
