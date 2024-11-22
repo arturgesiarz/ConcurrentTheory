@@ -9,6 +9,6 @@ public class Consumer extends Processor {
     @Override
     public void method(int i) {
         super.method(i);
-        System.out.println("Consumer have eaten cell nr " + i);
+        System.out.println("Consumer have eaten cell number: " + i);
     }
 }

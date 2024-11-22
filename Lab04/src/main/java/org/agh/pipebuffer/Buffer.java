@@ -12,6 +12,7 @@ public class Buffer {
         this.productionLine = new int[size];
         this.blocker = blocker;
         this.notifiers = notifiers;
+
         for (int i = 0; i < size; i++) {
             productionLine[i] = -1;
         }

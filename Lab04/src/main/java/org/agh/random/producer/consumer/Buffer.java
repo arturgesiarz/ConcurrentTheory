@@ -10,7 +10,9 @@ public class Buffer {
     private ReentrantLock lock = new ReentrantLock();
     private int maxCapacity;
     private int counter = 0;
+
     private FileWriter fileWriter;
+
     private Condition consumerCond;
     private Condition producerCond;
 
@@ -25,21 +27,25 @@ public class Buffer {
         lock.lock();
         try {
             long start = System.nanoTime();
+
             while (counter < amount) {
                 if (!consumerCond.await(100, TimeUnit.MILLISECONDS)) {
                     consumerCond.signal();
                     return;
                 }
             }
+
             long end = System.nanoTime();
+
             counter -= amount;
+
             fileWriter.append("Consumer," + amount + "," + (end - start) + "\n");
+
             producerCond.signal();
-        } catch (InterruptedException e) {
+
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally{
+        } finally {
             lock.unlock();
         }
     }
@@ -48,19 +54,29 @@ public class Buffer {
         lock.lock();
         try {
             long start = System.nanoTime();
+
+            // Sprawdzanie, czy jest wystarczająco dużo miejsca w buforze
             while (counter + amount > maxCapacity) {
+
+                // Jeśli brakuje miejsca, producent czeka na sygnał od konsumenta
                 if (!producerCond.await(100, TimeUnit.MILLISECONDS)) {
+
+                    // Powiadamia innego producenta, że może spróbować
                     producerCond.signal();
                     return;
                 }
             }
+
             long end = System.nanoTime();
+
+            // Aktualizacja licznika elementów w buforze
             counter += amount;
+
             fileWriter.append("Producer," + amount + "," + (end - start) + "\n");
+
             consumerCond.signal();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         } finally {
             lock.unlock();

@@ -8,6 +8,6 @@ public class Producent extends Processor {
     @Override
     public void method(int i) {
         super.method(i);
-        System.out.println("Producent touched cell nr" + i);
+        System.out.println("Producent have created cell number: " + i);
     }
 }
