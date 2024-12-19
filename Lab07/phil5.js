@@ -147,6 +147,71 @@ Philosopher.prototype.startConductor = function (count) {
   // zaimplementuj rozwiazanie z kelnerem
   // kazdy filozof powinien 'count' razy wykonywac cykl
   // podnoszenia widelcow -- jedzenia -- zwalniania widelcow
+  const eat = (iteration) => {
+    if (iteration >= count) {
+      console.log(`Filozof ${id} zakonczyl jedzenie!`);
+      return;
+    }
+
+    console.log(
+      `Filozof ${id} prosi kelnera o zgodę na podniesienie widelców.`
+    );
+
+    Conductor.requestPermission(() => {
+      console.log(`Kelner wyraził zgodę dla filozofa ${id}.`);
+
+      forks[f1].acquire(() => {
+        console.log(`Filozof ${id} podniósł widelec ${f1}.`);
+
+        forks[f2].acquire(() => {
+          console.log(`Filozof ${id} podniósł widelec ${f2}`);
+
+          console.log(`Filozof ${id} je.`);
+          setTimeout(() => {
+            forks[f1].release();
+            console.log(`Filozof ${id} zwolnił widelec ${f1}.`);
+
+            forks[f2].release();
+            console.log(`Filozof ${id} zwolnił widelec ${f2}.`);
+
+            Conductor.releaseForks();
+
+            eat(iteration + 1);
+          }, 1000);
+        });
+      });
+    });
+  };
+
+  eat(0);
+};
+
+// Conductor class
+var Conductor = function (forksNumber) {
+  this.waitingPhilosphers = [];
+  this.avaiableForks = forksNumber;
+  return this;
+};
+
+Conductor.prototype.requestPermission = function (cb) {
+  var avaiableForks = this.avaiableForks;
+
+  if (avaiableForks >= 2) {
+    this.avaiableForks -= 2;
+    cb();
+  } else {
+    this.waitingPhilosphers.push(cb);
+  }
+};
+
+Conductor.prototype.releaseForks = function () {
+  this.avaiableForks += 2;
+
+  while (this.availableForks >= 2 && this.waitingPhilosphers.length > 0) {
+    this.availableForks -= 2;
+    const cb = this.waitingPhilosphers.shift();
+    cb();
+  }
 };
 
 // Test
