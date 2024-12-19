@@ -1,3 +1,19 @@
+// Save to file
+const fs = require("fs");
+const path = require("path");
+
+const appendToCSV = function (fileName, philosophersNumber, start) {
+  const filePath = path.join(__dirname, fileName);
+  const timestamp = new Date().getTime() - start;
+  const line = `${philosophersNumber},${timestamp}\n`;
+
+  fs.appendFile(filePath, line, (err) => {
+    if (err) {
+      console.error("Błąd podczas zapisu do pliku:", err);
+    }
+  });
+};
+
 // Fork class
 var Fork = function () {
   this.state = 0;
@@ -62,14 +78,14 @@ Philosopher.prototype.startNaive = function (count) {
 
         console.log(`Filozof ${id} je.`);
         setTimeout(() => {
-          forks[f1].release();
+          forks[f2].release();
           console.log(`Filozof ${id} zwolnil widelec ${f1}.`);
 
-          forks[f2].release();
+          forks[f1].release();
           console.log(`Filozof ${id} zwolnil widelec ${f2}.`);
 
           eat(iteration + 1);
-        }, 1000);
+        }, 100);
       });
     });
   };
@@ -77,11 +93,21 @@ Philosopher.prototype.startNaive = function (count) {
   eat(0);
 };
 
-Philosopher.prototype.startAsym = function (count) {
+Philosopher.prototype.startAsym = function (count, philosophersNumber) {
   var forks = this.forks,
     f1 = this.f1,
     f2 = this.f2,
     id = this.id;
+
+  var left, right;
+
+  if (id % 2 === 0) {
+    left = this.f1;
+    right = this.f2;
+  } else {
+    left = this.f2;
+    right = this.f1;
+  }
 
   // zaimplementuj rozwiazanie asymetryczne
   // kazdy filozof powinien 'count' razy wykonywac cykl
@@ -93,52 +119,36 @@ Philosopher.prototype.startAsym = function (count) {
     }
 
     console.log(`Filozof ${id} probuje podniesc widelce.`);
+    var start = new Date();
+    forks[left].acquire(() => {
+      console.log(`Filozof ${id} podniósł widelec ${left}.`);
 
-    if (id % 2 === 0) {
-      forks[f2].acquire(() => {
-        console.log(`Filozof ${id} podniósł widelec ${f2}.`);
+      forks[right].acquire(() => {
+        appendToCSV("phil_asym.csv", philosophersNumber, start);
+        console.log(`Filozof ${id} podniósł widelec ${right}`);
 
-        forks[f1].acquire(() => {
-          console.log(`Filozof ${id} podniósł widelec ${f1}`);
+        console.log(`Filozof ${id} je.`);
+        setTimeout(() => {
+          forks[right].release();
+          console.log(`Filozof ${id} zwolnil widelec ${right}.`);
 
-          console.log(`Filozof ${id} je.`);
-          setTimeout(() => {
-            forks[f2].release();
-            console.log(`Filozof ${id} zwolnil widelec ${f2}.`);
+          forks[left].release();
+          console.log(`Filozof ${id} zwolnil widelec ${left}.`);
 
-            forks[f1].release();
-            console.log(`Filozof ${id} zwolnil widelec ${f1}.`);
-
-            eat(iteration + 1);
-          }, 1000);
-        });
+          eat(iteration + 1);
+        }, 100);
       });
-    } else {
-      forks[f1].acquire(() => {
-        console.log(`Filozof ${id} podniósł widelec ${f1}.`);
-
-        forks[f2].acquire(() => {
-          console.log(`Filozof ${id} podniósł widelec ${f2}`);
-
-          console.log(`Filozof ${id} je.`);
-          setTimeout(() => {
-            forks[f1].release();
-            console.log(`Filozof ${id} zwolnil widelec ${f1}.`);
-
-            forks[f2].release();
-            console.log(`Filozof ${id} zwolnil widelec ${f2}.`);
-
-            eat(iteration + 1);
-          }, 1000);
-        });
-      });
-    }
+    });
   };
 
   eat(0);
 };
 
-Philosopher.prototype.startConductor = function (count, conductor) {
+Philosopher.prototype.startConductor = function (
+  count,
+  conductor,
+  philosophersNumber
+) {
   var forks = this.forks,
     f1 = this.f1,
     f2 = this.f2,
@@ -156,8 +166,9 @@ Philosopher.prototype.startConductor = function (count, conductor) {
     console.log(
       `Filozof ${id} prosi kelnera o zgodę na podniesienie widelców.`
     );
-
+    var start = new Date();
     conductor.requestPermission(() => {
+      appendToCSV("phil_conductor.csv", philosophersNumber, start);
       console.log(`Kelner wyraził zgodę dla filozofa ${id}.`);
 
       forks[f1].acquire(() => {
@@ -177,7 +188,7 @@ Philosopher.prototype.startConductor = function (count, conductor) {
             conductor.releaseForks();
 
             eat(iteration + 1);
-          }, 1000);
+          }, 100);
         });
       });
     });
@@ -219,15 +230,11 @@ Conductor.prototype.releaseForks = function () {
 };
 
 // TEST - Functions
-const test_phil_naive = function (
-  philosophersNumber = 5,
-  forksNumber = 5,
-  eatingCounter = 10
-) {
+const test_phil_naive = function (philosophersNumber = 5, eatingCounter = 10) {
   var forks = [];
   var philosophers = [];
 
-  for (var i = 0; i < forksNumber; i++) {
+  for (var i = 0; i < philosophersNumber; i++) {
     forks.push(new Fork());
   }
 
@@ -240,15 +247,11 @@ const test_phil_naive = function (
   }
 };
 
-const test_phil_asym = function (
-  philosophersNumber = 5,
-  forksNumber = 5,
-  eatingCounter = 10
-) {
+const test_phil_asym = function (philosophersNumber = 5, eatingCounter = 10) {
   var forks = [];
   var philosophers = [];
 
-  for (var i = 0; i < forksNumber; i++) {
+  for (var i = 0; i < philosophersNumber; i++) {
     forks.push(new Fork());
   }
 
@@ -257,19 +260,18 @@ const test_phil_asym = function (
   }
 
   for (var i = 0; i < philosophersNumber; i++) {
-    philosophers[i].startAsym(eatingCounter);
+    philosophers[i].startAsym(eatingCounter, philosophersNumber);
   }
 };
 
 const test_phil_conductor = function (
   philosophersNumber = 5,
-  forksNumber = 5,
   eatingCounter = 10
 ) {
   var forks = [];
   var philosophers = [];
 
-  for (var i = 0; i < forksNumber; i++) {
+  for (var i = 0; i < philosophersNumber; i++) {
     forks.push(new Fork());
   }
   var conductor = new Conductor(forks.length);
@@ -279,10 +281,22 @@ const test_phil_conductor = function (
   }
 
   for (var i = 0; i < philosophersNumber; i++) {
-    philosophers[i].startConductor(eatingCounter, conductor);
+    philosophers[i].startConductor(
+      eatingCounter,
+      conductor,
+      philosophersNumber
+    );
   }
 };
 
-// test_phil_naive(5, 5, 1);
-// test_phil_asym(5, 5, 1);
-test_phil_conductor(5, 5, 3);
+// Normal Test
+// test_phil_naive(5);
+// test_phil_asym(6);
+// test_phil_conductor(5);
+
+// Speed Test
+let philosophersTests = [5, 6, 7, 8, 9, 10];
+philosophersTests.forEach((philosophers) => {
+  test_phil_asym(philosophers);
+  test_phil_conductor(philosophers);
+});
