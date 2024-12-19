@@ -138,7 +138,7 @@ Philosopher.prototype.startAsym = function (count) {
   eat(0);
 };
 
-Philosopher.prototype.startConductor = function (count) {
+Philosopher.prototype.startConductor = function (count, conductor) {
   var forks = this.forks,
     f1 = this.f1,
     f2 = this.f2,
@@ -157,7 +157,7 @@ Philosopher.prototype.startConductor = function (count) {
       `Filozof ${id} prosi kelnera o zgodę na podniesienie widelców.`
     );
 
-    Conductor.requestPermission(() => {
+    conductor.requestPermission(() => {
       console.log(`Kelner wyraził zgodę dla filozofa ${id}.`);
 
       forks[f1].acquire(() => {
@@ -174,7 +174,7 @@ Philosopher.prototype.startConductor = function (count) {
             forks[f2].release();
             console.log(`Filozof ${id} zwolnił widelec ${f2}.`);
 
-            Conductor.releaseForks();
+            conductor.releaseForks();
 
             eat(iteration + 1);
           }, 1000);
@@ -197,7 +197,8 @@ Conductor.prototype.requestPermission = function (cb) {
   var avaiableForks = this.avaiableForks;
 
   if (avaiableForks >= 2) {
-    this.avaiableForks -= 2;
+    avaiableForks -= 2;
+    this.avaiableForks = avaiableForks;
     cb();
   } else {
     this.waitingPhilosphers.push(cb);
@@ -205,28 +206,83 @@ Conductor.prototype.requestPermission = function (cb) {
 };
 
 Conductor.prototype.releaseForks = function () {
-  this.avaiableForks += 2;
+  var waitingPhilosphers = this.waitingPhilosphers;
+  var avaiableForks = this.avaiableForks;
+  avaiableForks += 2;
 
-  while (this.availableForks >= 2 && this.waitingPhilosphers.length > 0) {
-    this.availableForks -= 2;
-    const cb = this.waitingPhilosphers.shift();
+  while (avaiableForks >= 2 && waitingPhilosphers.length > 0) {
+    avaiableForks -= 2;
+    this.avaiableForks = avaiableForks;
+    const cb = waitingPhilosphers.shift();
     cb();
   }
 };
 
-// Test
-var N = 5;
-var forks = [];
-var philosophers = [];
+// TEST - Functions
+const test_phil_naive = function (
+  philosophersNumber = 5,
+  forksNumber = 5,
+  eatingCounter = 10
+) {
+  var forks = [];
+  var philosophers = [];
 
-for (var i = 0; i < N; i++) {
-  forks.push(new Fork());
-}
+  for (var i = 0; i < forksNumber; i++) {
+    forks.push(new Fork());
+  }
 
-for (var i = 0; i < N; i++) {
-  philosophers.push(new Philosopher(i, forks));
-}
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers.push(new Philosopher(i, forks));
+  }
 
-for (var i = 0; i < N; i++) {
-  philosophers[i].startNaive(10);
-}
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers[i].startNaive(eatingCounter);
+  }
+};
+
+const test_phil_asym = function (
+  philosophersNumber = 5,
+  forksNumber = 5,
+  eatingCounter = 10
+) {
+  var forks = [];
+  var philosophers = [];
+
+  for (var i = 0; i < forksNumber; i++) {
+    forks.push(new Fork());
+  }
+
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers.push(new Philosopher(i, forks));
+  }
+
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers[i].startAsym(eatingCounter);
+  }
+};
+
+const test_phil_conductor = function (
+  philosophersNumber = 5,
+  forksNumber = 5,
+  eatingCounter = 10
+) {
+  var forks = [];
+  var philosophers = [];
+
+  for (var i = 0; i < forksNumber; i++) {
+    forks.push(new Fork());
+  }
+  var conductor = new Conductor(forks.length);
+
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers.push(new Philosopher(i, forks));
+  }
+
+  for (var i = 0; i < philosophersNumber; i++) {
+    philosophers[i].startConductor(eatingCounter, conductor);
+  }
+};
+
+// test_phil_naive(5, 5, 1);
+// test_phil_asym(5, 5, 1);
+test_phil_conductor(5, 5, 3);
