@@ -86,6 +86,56 @@ Philosopher.prototype.startAsym = function (count) {
   // zaimplementuj rozwiazanie asymetryczne
   // kazdy filozof powinien 'count' razy wykonywac cykl
   // podnoszenia widelcow -- jedzenia -- zwalniania widelcow
+  const eat = (iteration) => {
+    if (iteration >= count) {
+      console.log(`Filozof ${id} zakonczyl jedzenie!`);
+      return;
+    }
+
+    console.log(`Filozof ${id} probuje podniesc widelce.`);
+
+    if (id % 2 === 0) {
+      forks[f2].acquire(() => {
+        console.log(`Filozof ${id} podniósł widelec ${f2}.`);
+
+        forks[f1].acquire(() => {
+          console.log(`Filozof ${id} podniósł widelec ${f1}`);
+
+          console.log(`Filozof ${id} je.`);
+          setTimeout(() => {
+            forks[f2].release();
+            console.log(`Filozof ${id} zwolnil widelec ${f2}.`);
+
+            forks[f1].release();
+            console.log(`Filozof ${id} zwolnil widelec ${f1}.`);
+
+            eat(iteration + 1);
+          }, 1000);
+        });
+      });
+    } else {
+      forks[f1].acquire(() => {
+        console.log(`Filozof ${id} podniósł widelec ${f1}.`);
+
+        forks[f2].acquire(() => {
+          console.log(`Filozof ${id} podniósł widelec ${f2}`);
+
+          console.log(`Filozof ${id} je.`);
+          setTimeout(() => {
+            forks[f1].release();
+            console.log(`Filozof ${id} zwolnil widelec ${f1}.`);
+
+            forks[f2].release();
+            console.log(`Filozof ${id} zwolnil widelec ${f2}.`);
+
+            eat(iteration + 1);
+          }, 1000);
+        });
+      });
+    }
+  };
+
+  eat(0);
 };
 
 Philosopher.prototype.startConductor = function (count) {
