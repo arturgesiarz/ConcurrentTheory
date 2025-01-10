@@ -31,6 +31,7 @@ Fork.prototype.acquire = function (cb, time = 1) {
       this.state = 1;
       cb();
     } else {
+      console.log(`Czekam ${time * 2}`);
       this.acquire(cb, time * 2);
     }
   }, time);
@@ -270,5 +271,5 @@ const test_phil_conductor = function (
 
 // Normal Test
 test_phil_naive(5);
-test_phil_asym(5);
-test_phil_conductor(5);
+// test_phil_asym(5);
+// test_phil_conductor(5);
