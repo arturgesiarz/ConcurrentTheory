@@ -2,48 +2,38 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.selects.select
 
-suspend fun producer(brokers: ArrayList<Channel<Int>>) {
-    while (true) {
-        delay(1000)
+suspend fun producer(brokers: List<Channel<Int>>) {
+    repeat(20) {
+        delay(500)
+        val value = (0..1000).random()
         select {
-            val brokerNumber = brokers.size
-            val randomNumber = (0 until brokerNumber).random()
-            val broker = brokers[randomNumber]
-            broker.onSend(randomNumber) {println("Sent to channel $randomNumber")}
+            brokers.forEach {sendChannel -> sendChannel.onSend(value) { println("Producer sent value: $value") } }
         }
     }
 }
 
-suspend fun consume(brokers: ArrayList<Channel<Int>>) {
+suspend fun consumer(brokers: List<Channel<Int>>) {
     while (true) {
         select {
-            brokers.forEach { receiveChannel -> receiveChannel.onReceive { channel -> println("Received from channel $channel") } }
+            brokers.forEach {receiveChannel -> receiveChannel.onReceive { value -> println("Consumer received value: $value") } }
         }
     }
 }
 
 suspend fun broke(fromProducer: Channel<Int>, toConsumer: Channel<Int>) {
     while (true) {
-        val channel = fromProducer.receive()
-        toConsumer.send(channel)
+        val portion = fromProducer.receive()
+        toConsumer.send(portion)
     }
 }
 
 fun main() {
     val brokerNumber = 10
-    val prodChannels = ArrayList<Channel<Int>>()
-    val consChannels = ArrayList<Channel<Int>>()
-
-    for (num in 1..brokerNumber) {
-        prodChannels.add(Channel())
-        consChannels.add(Channel())
-    }
+    val channels = List(brokerNumber) {Pair(Channel<Int>(), Channel<Int>())}
 
     runBlocking {
-        for (num in 0 until brokerNumber) {
-            launch { broke(prodChannels[num], consChannels[num]) }
-        }
-        launch { producer(prodChannels) }
-        launch { consume(consChannels) }
+        channels.forEach {(fromProducer, toConsumer) -> launch { broke(fromProducer, toConsumer) }}
+        launch { producer(channels.map { it.first }) }
+        launch { consumer(channels.map { it.second }) }
     }
 }
