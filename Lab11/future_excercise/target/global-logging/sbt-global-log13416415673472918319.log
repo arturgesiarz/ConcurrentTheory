@@ -1,0 +1,20 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(run, Some(a26e8da5-2643-4fb7-9c84-093305b163b1), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / run[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mUpdating temp-module-f02db565ec103839151504cb68a2a8c6f03e291a[0m
+[0m[[0m[0minfo[0m] [0m[0mResolved temp-module-f02db565ec103839151504cb68a2a8c6f03e291a dependencies[0m
+[0m[[0m[0minfo[0m] [0m[0mUpdating twwebcrawler_3[0m
+[0m[[0m[0minfo[0m] [0m[0mResolved twwebcrawler_3 dependencies[0m
+[0m[[0m[0minfo[0m] [0m[0mUpdating twwebcrawler_3[0m
+[0m[[0m[0minfo[0m] [0m[0mResolved twwebcrawler_3 dependencies[0m
+[0m[[0m[0minfo[0m] [0m[0mFetching artifacts of temp-module-f02db565ec103839151504cb68a2a8c6f03e291a[0m
+[0m[[0m[0minfo[0m] [0m[0mFetched artifacts of temp-module-f02db565ec103839151504cb68a2a8c6f03e291a[0m
+[0m[[0m[0minfo[0m] [0m[0mFetching artifacts of twwebcrawler_3[0m
+[0m[[0m[0minfo[0m] [0m[0mFetched artifacts of twwebcrawler_3[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /Users/arturgesiarz/Desktop/Studia/ConcurrentTheory/Lab11/target/scala-3.6.2/classes ...[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere were 2 deprecation warnings; re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 7 s, completed 11 sty 2025, 22:44:21[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[0minfo[0m] [0m[0mshutting down sbt server[0m
